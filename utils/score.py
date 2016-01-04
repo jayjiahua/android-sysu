@@ -85,5 +85,5 @@ def get_score(year, term, request_session):
             'score': c['zzcj'],
             'courseId': c['kch'],
             'gpa': c['jd'],
-            'teacher': c['jsxm']
+            'teacher': c.get('jsxm')
         } for c in res_dict['body']['dataStores']['kccjStore']['rowSet']['primary']]

@@ -5,7 +5,7 @@ import requests
 from login import login, LoginStatus
 
 SESSION_DICT = {}
-MAX_RETRY_TIME = 10
+MAX_RETRY_TIME = 30
 
 class Session:
     def new_session(self):
