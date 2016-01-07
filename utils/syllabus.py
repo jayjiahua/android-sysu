@@ -48,12 +48,23 @@ def get_syllabus(year, term, request_session, ret_type):
     else:
         ret = []
         soup = BeautifulSoup(res_dict['body']['parameters']['rs'], "html.parser")
+        week_day_list = []
+        for i in range(0, 16):
+            week_day_sub_list = []
+            for j in range(0, 8):
+                week_day_sub_list.append(j)
+            week_day_list.append(week_day_sub_list)
+        
         tr_list = soup.find_all("tr")
-        for tr_tag in tr_list:
-            td_list = tr_tag.find_all("td")
-            week_day = 0
+        for i in range(len(tr_list)):
+            td_list = tr_list[i].find_all("td")
+            week_day_index = 0
             for td_tag in td_list:
                 if td_tag.get('rowspan'):
+                    course_length = int(td_tag.get('rowspan'))
+                    #print course_length
+                    for j in range(i + 1, i + course_length):
+                        week_day_list[j].remove(week_day_list[i][week_day_index])
                     td_str = td_tag.prettify().split('\n')
                     if "<br>" in td_str[3]:
                         td_str.insert(3, u"待定")
@@ -65,8 +76,8 @@ def get_syllabus(year, term, request_session, ret_type):
                         "fromTime": int(td_str[5].strip()[:-1].split('-')[0]),
                         "toTime": int(td_str[5].strip()[:-1].split('-')[1]),
                         "week": td_str[7].strip(),
-                        "day": week_day,
+                        "day": week_day_list[i][week_day_index],
                     })
-                week_day += 1
+                week_day_index += 1
         return ret
 
