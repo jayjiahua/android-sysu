@@ -51,10 +51,10 @@ def get_syllabus(year, term, request_session, ret_type):
         week_day_list = []
         for i in range(0, 16):
             week_day_sub_list = []
-            for j in range(0, 8):
+            for j in range(0, 16):
                 week_day_sub_list.append(j)
             week_day_list.append(week_day_sub_list)
-        
+
         tr_list = soup.find_all("tr")
         for i in range(len(tr_list)):
             td_list = tr_list[i].find_all("td")
